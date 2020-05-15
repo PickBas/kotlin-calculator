@@ -45,7 +45,7 @@
             <TextView
                 android:id="@+id/operation_procent"
                 style="@style/OperationButton"
-                android:text="%"/>
+                android:text="mod"/>
 
             <TextView
                 android:id="@+id/operation_division"
