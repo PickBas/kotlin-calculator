@@ -12,6 +12,8 @@ class MainActivity : AppCompatActivity() {
 
     private var expression = ""
 
+    private var result = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 calc_operations.append(".")
             }
         }
-
+        
         operation_addition.setOnClickListener { operationsProcess("+") }
         operation_minus.setOnClickListener { operationsProcess("-") }
         operation_multiply.setOnClickListener { operationsProcess("*") }
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         operation_all_clear.setOnClickListener {
             calc_operations.text = ""
-            result.text = ""
+            result = ""
             expression = ""
         }
 
@@ -54,9 +56,11 @@ class MainActivity : AppCompatActivity() {
                 val res = expr_builder.evaluate()
 
                 if (res == res.toLong().toDouble()) {
-                    result.text = res.toLong().toString()
+                    result = res.toLong().toString()
+                    calc_operations.text = res.toLong().toString()
                 } else {
-                    result.text = res.toString()
+                    result = res.toString()
+                    calc_operations.text = res.toString()
                 }
 
             } catch (e: Exception) {
@@ -71,16 +75,16 @@ class MainActivity : AppCompatActivity() {
                 calc_operations.text = nm.substring(0, nm.length - 1)
             }
 
-            result.text = ""
+            result = ""
         }
 
     }
 
     private fun appendText(str: String) {
-        if (result.text != "") {
-            calc_operations.text = result.text
-            expression = result.text.toString();
-            result.text = ""
+        if (result != "") {
+            calc_operations.text = result
+            expression = result;
+            result = ""
         }
         expression += str
         calc_operations.append(str)
@@ -90,13 +94,14 @@ class MainActivity : AppCompatActivity() {
         if (!expression[expression.length - 1].isDigit())
             return;
 
-        if (result.text != "") {
-            expression = result.text.toString();
-            result.text = ""
+        if (result != "") {
+            expression = result;
+            result = ""
         }
 
         calc_operations.text = ""
 
         expression += str
     }
+
 }
