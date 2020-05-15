@@ -92,6 +92,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun operationsProcess(str: String) {
+        if (expression.isEmpty())
+            return;
+
         if (!expression[expression.length - 1].isDigit())
             return;
 
