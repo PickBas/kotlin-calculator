@@ -145,7 +145,6 @@
 
             <TextView
                 android:id="@+id/operation_addition"
-                android:onClick="addition"
                 style="@style/OperationButton"
                 android:text="+"/>
 

@@ -10,6 +10,8 @@ import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
+    private var expression = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,19 +28,22 @@ class MainActivity : AppCompatActivity() {
         btn_8.setOnClickListener { appendText("8") }
         btn_9.setOnClickListener { appendText("9") }
 
-        operation_addition.setOnClickListener { appendText("+") }
-        operation_minus.setOnClickListener { appendText("-") }
-        operation_multiply.setOnClickListener { appendText("*") }
-        operation_division.setOnClickListener { appendText("/") }
+        operation_addition.setOnClickListener { operationsProcess("+") }
+        operation_minus.setOnClickListener { operationsProcess("-") }
+        operation_multiply.setOnClickListener { operationsProcess("*") }
+        operation_division.setOnClickListener { operationsProcess("/") }
 
         operation_all_clear.setOnClickListener {
             calc_operations.text = ""
+            result.text = ""
+            expression = ""
         }
 
 
         operation_equal.setOnClickListener {
             try {
-                val expr_builder = ExpressionBuilder(calc_operations.text.toString()).build()
+                println(expression)
+                val expr_builder = ExpressionBuilder(expression).build()
                 val res = expr_builder.evaluate()
 
                 if (res == res.toLong().toDouble()) {
@@ -67,8 +72,24 @@ class MainActivity : AppCompatActivity() {
     private fun appendText(str: String) {
         if (result.text != "") {
             calc_operations.text = result.text
+            expression = result.text.toString();
             result.text = ""
         }
+        expression += str
         calc_operations.append(str)
+    }
+
+    private fun operationsProcess(str: String) {
+        if (expression[expression.length - 1].isDigit()) {
+            if (result.text != "") {
+                calc_operations.text = result.text
+                println(result.text)
+                expression = result.text.toString();
+                result.text = ""
+            } else {
+                calc_operations.text = ""
+            }
+            expression += str
+        }
     }
 }
