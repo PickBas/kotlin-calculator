@@ -28,6 +28,13 @@ class MainActivity : AppCompatActivity() {
         btn_8.setOnClickListener { appendText("8") }
         btn_9.setOnClickListener { appendText("9") }
 
+        btn_dot_sign.setOnClickListener {
+            if (expression[expression.length - 1].isDigit()) {
+                expression += "."
+                calc_operations.append(".")
+            }
+        }
+
         operation_addition.setOnClickListener { operationsProcess("+") }
         operation_minus.setOnClickListener { operationsProcess("-") }
         operation_multiply.setOnClickListener { operationsProcess("*") }
@@ -80,16 +87,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun operationsProcess(str: String) {
-        if (expression[expression.length - 1].isDigit()) {
-            if (result.text != "") {
-                calc_operations.text = result.text
-                println(result.text)
-                expression = result.text.toString();
-                result.text = ""
-            } else {
-                calc_operations.text = ""
-            }
-            expression += str
+        if (!expression[expression.length - 1].isDigit())
+            return;
+
+        if (result.text != "") {
+            expression = result.text.toString();
+            result.text = ""
         }
+
+        calc_operations.text = ""
+
+        expression += str
     }
 }
