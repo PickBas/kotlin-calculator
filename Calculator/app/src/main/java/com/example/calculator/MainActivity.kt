@@ -37,6 +37,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        operation_sign_number.setOnClickListener {
+            var number = calc_operations.text.toString()
+            if (number.isNotEmpty()) {
+                if (number[0].isDigit()) {
+                    calc_operations.text = "-$number";
+                } else {
+                    calc_operations.text = number.substring(1, number.length)
+                }
+                expression += "*-1"
+            }
+        }
+
         operation_procent.setOnClickListener { operationsProcess("%") }
         operation_addition.setOnClickListener { operationsProcess("+") }
         operation_minus.setOnClickListener { operationsProcess("-") }
@@ -52,15 +64,16 @@ class MainActivity : AppCompatActivity() {
 
         operation_equal.setOnClickListener {
             try {
-                println(expression)
                 val expr_builder = ExpressionBuilder(expression).build()
                 val res = expr_builder.evaluate()
 
                 if (res == res.toLong().toDouble()) {
                     result = res.toLong().toString()
+                    expression = res.toLong().toString()
                     calc_operations.text = res.toLong().toString()
                 } else {
                     result = res.toString()
+                    expression = res.toString()
                     calc_operations.text = res.toString()
                 }
 
@@ -84,7 +97,6 @@ class MainActivity : AppCompatActivity() {
     private fun appendText(str: String) {
         if (result != "") {
             calc_operations.text = result
-            expression = result;
             result = ""
         }
         expression += str
@@ -99,7 +111,6 @@ class MainActivity : AppCompatActivity() {
             return;
 
         if (result != "") {
-            expression = result;
             result = ""
         }
 
