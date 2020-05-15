@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
                 calc_operations.append(".")
             }
         }
-        
+
+        operation_procent.setOnClickListener { operationsProcess("%") }
         operation_addition.setOnClickListener { operationsProcess("+") }
         operation_minus.setOnClickListener { operationsProcess("-") }
         operation_multiply.setOnClickListener { operationsProcess("*") }
