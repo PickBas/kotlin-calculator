@@ -1,5 +1,6 @@
 package com.example.calculator
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     private var cleared = true
 
+    private var operated = false
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -103,28 +107,31 @@ class MainActivity : AppCompatActivity() {
             calc_operations.text = result
             result = ""
         }
+
         if (cleared) {
             calc_operations.text = ""
             cleared = false
         }
+
+        if (operated) {
+            calc_operations.text = ""
+            operated = false
+        }
+
         expression += str
         calc_operations.append(str)
     }
 
     private fun operationsProcess(str: String) {
-        if (expression.isEmpty())
-            return;
+        if (expression[expression.length - 1].isDigit() && expression.isNotEmpty()) {
 
-        if (!expression[expression.length - 1].isDigit())
-            return;
+            if (result != "") {
+                result = ""
+            }
 
-        if (result != "") {
-            result = ""
+            operated = true
+            expression += str
         }
-
-        calc_operations.text = ""
-
-        expression += str
     }
 
 }
