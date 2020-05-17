@@ -3,7 +3,6 @@ package com.example.calculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.lang.Exception
@@ -14,9 +13,13 @@ class MainActivity : AppCompatActivity() {
 
     private var result = ""
 
+    private var cleared = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        calc_operations.text = "0"
 
 
         btn_0.setOnClickListener { appendText("0") }
@@ -38,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         operation_sign_number.setOnClickListener {
-            var number = calc_operations.text.toString()
+            val number = calc_operations.text.toString()
             if (number.isNotEmpty()) {
                 if (number[0].isDigit()) {
                     calc_operations.text = "-$number";
@@ -56,7 +59,8 @@ class MainActivity : AppCompatActivity() {
         operation_division.setOnClickListener { operationsProcess("/") }
 
         operation_all_clear.setOnClickListener {
-            calc_operations.text = ""
+            cleared = true
+            calc_operations.text = "0"
             result = ""
             expression = ""
         }
@@ -98,6 +102,10 @@ class MainActivity : AppCompatActivity() {
         if (result != "") {
             calc_operations.text = result
             result = ""
+        }
+        if (cleared) {
+            calc_operations.text = ""
+            cleared = false
         }
         expression += str
         calc_operations.append(str)
